@@ -11,7 +11,7 @@ var debug = 0;
 
 var letters = [];
 
-var alpha = "abcdefghijklmnopqrstuvwxyzI"
+var alpha = "abcdefghijklmnopqrstuvwxyzI'"
 
 var letterSize = 50;
 
@@ -28,7 +28,7 @@ var doMovement = true;
 
 var speedUnit = 0.15;
 
-var skinnyLetters = "iIjtlrf";
+var skinnyLetters = "iIjtlrf'";
 var wideLetters = "wm";
 
 var screen = "SELECT";
@@ -36,49 +36,25 @@ var screen = "SELECT";
 var wordsA = ["is", "we", "can", "see", "a", "I", "the", "to", "my", "am"];
 var wordsB = ["big", "at", "like", "look", "play", "has", "too", "got", "have", "some", "and", "in", "our", "went", "here", "new", "put"];
 var wordsC = ["he", "likes", "loves", "come", "with", "help", "her", "your", "said", "this", "go", "an"];
-var wordsD = ["these", "want", "cant", "asked", "good", "for", "from", "make", "find", "saw", "they", "not", "there"];
+var wordsD = ["these", "want", "can't", "asked", "good", "for", "from", "make", "find", "saw", "they", "not", "there"];
 
 var buttons = [];
-
-var listID = "";
-var listOfWords = [];
 
 //TIMER FUNCTION
 function timer() {
     if(millis() > startTime + deltaT) {
         doMovement = false;
     }
-    return millis() < startTime + deltaT;
 }
 
 
 function mousePressed() {
-    if(screen === "SELECT") {
-        for(var i = 0; i < buttons.length; i++) {
-            if(buttons[i].hover) {
-                listID = buttons[i].txt;
-
-                if(listID === "A") {
-                    listOfWords = wordsA;
-                }
-                else if(listID === "B") {
-                    listOfWords = wordsB;
-                }
-                else if(listID === "C") {
-                    listOfWords = wordsC;
-                }
-                else if(listID === "D") {
-                    listOfWords = wordsD;
-                }
-                else {
-
-                }
-                console.log("Hi");
-                screen = "LETTERS";
-            }
+    for(var i = 0; i < buttons.length; i++) {
+        if(buttons[i].hover) {
+            console.log("Hi");
+            screen = "LETTERS";
         }
     }
-    
 }
 
 //Button OBJECT
@@ -136,7 +112,7 @@ Letter.prototype.move = function() {
 
 
 //Create Letters
-for(var i = 0; i < 27; i++) {
+for(var i = 0; i < 28; i++) {
     var randx = Math.random() * window.innerWidth * 0.9 + 20;
     var randy = Math.random() * window.innerHeight * 0.9 + 50;
     var randvx = Math.random() + 0.2;
@@ -158,8 +134,6 @@ for(var i = 0; i < 27; i++) {
 
     letters.push(new Letter(randx, randy, randvx, randvy, alpha[i], false));
 }
-
-var trueLetters = letters;
 
 
 
@@ -474,15 +448,22 @@ function doWord(word) {
 
             break;
     }
-    //console.log("kevin");
+}
+
+//doWord("hello");
+
+var currentWordIdx = 0;
+
+function nextWord(list) {
+    doWord(list[currentWordIdx]);
+    currentWordIdx++;
 }
 
 buttons.push(new Button(200, 200, 100, "B"));
 
-//doWord("hello");
-
 draw = function() {
     
+    nextWord(wordsA);
 
     if(debug) {
         line(0, window.innerHeight / 2, window.innerWidth, window.innerHeight / 2);
@@ -492,40 +473,20 @@ draw = function() {
 
     if(screen === "LETTERS") {
         background(200);
-        
-        console.log("hi");
-        console.log(listID);
-        console.log(listOfWords);
-
-        for(var j = 0; j < listOfWords.length; j++) {
-            console.log("a");
-            console.log(timer());
-
-            while(timer()) {
-                for(var i = 0; i < letters.length; i++) {
-                    background(200);
-                    console.log("b");
-                    if(doMovement || letters[i].active) {
-                        letters[i].draw();
-                    }
-                    if(doMovement && letters[i].active && abs(letters[i].y - window.innerHeight / 2 - (letterSize / 2)) > 0.2) {
-                        letters[i].move();
-                    }
-
-                    if(doMovement && !letters[i].active) {
-                        letters[i].move();
-                    }
-                
-                }
-
+        for(var i = 0; i < letters.length; i++) {
+            if(doMovement || letters[i].active) {
+                letters[i].draw();
+            }
+            if(doMovement && letters[i].active && abs(letters[i].y - window.innerHeight / 2 - (letterSize / 2)) > 0.2) {
+                letters[i].move();
             }
 
-            doMovement = true;
-            startTime += deltaT;
-
+            if(doMovement && !letters[i].active) {
+                letters[i].move();
+            }
+            
         }
-
-        
+        timer();
     }
     else {
         background(150);
