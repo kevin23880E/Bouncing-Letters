@@ -101,7 +101,7 @@ var wordThe = function() {
 
 
 
-//randomize the word here
+//randomize the word
 wordThe();
 
 
