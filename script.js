@@ -5,18 +5,19 @@ function setup() {
     startTime = millis();
 }
 
-var deltaT = 9150;
+var deltaT = 10000;
 
 var debug = 0;
 
 var letters = [];
 
-var alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+var alpha = "abcdefghijklmnopqrstuvwxyz"
 
-var letterSize = 55;
+var letterSize = 50;
 
 var oneUnit = letterSize;
 var twoUnit = letterSize * 2;
+var threeUnit = letterSize * 3;
 
 var oneAndHalfUnit = Math.floor(letterSize * 1.5);
 var twoAndHalfUnit = Math.floor(letterSize * 2.5);
@@ -24,6 +25,11 @@ var threeAndHalfUnit = Math.floor(letterSize * 3.5);
 
 
 var doMovement = true;
+
+var speedUnit = 0.15;
+
+var skinnyLetters = "ijt";
+var wideLetters = "wm";
 
 
 //TIMER FUNCTION
@@ -90,11 +96,11 @@ for(var i = 0; i < 26; i++) {
 //WORDS
 var wordThe = function() {
     //t
-    letters[19] = new Letter(window.innerWidth / 2 - twoAndHalfUnit, window.innerHeight / 2 - oneAndHalfUnit, 0.1, 0.2, "T", true);
+    letters[19] = new Letter(window.innerWidth / 2 - twoAndHalfUnit, window.innerHeight / 2 - oneAndHalfUnit, speedUnit * 1.5, speedUnit * 2, "t", true);
     //h
-    letters[7] = new Letter(window.innerWidth / 2 - oneAndHalfUnit, window.innerHeight / 2 + oneAndHalfUnit, 0.1, -0.1, "H", true);
+    letters[7] = new Letter(window.innerWidth / 2 - oneAndHalfUnit, window.innerHeight / 2 + oneAndHalfUnit, speedUnit * 1.2, -speedUnit, "h", true);
     //e
-    letters[4] = new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 + threeAndHalfUnit, -0.3, -0.3, "E", true);
+    letters[4] = new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 + threeAndHalfUnit, -speedUnit * 3, -speedUnit * 3, "e", true);
 }
 
 
@@ -102,8 +108,72 @@ var wordThe = function() {
 
 
 //randomize the word
-wordThe();
+//wordThe();
 
+function doWord(word) {
+    var len = word.length;
+    //console.log(len);
+    switch(len) {
+        //2 Letters
+        case 2:
+            if(skinnyLetters.includes(word[0])) {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoUnit, window.innerHeight / 2 + threeAndHalfUnit, speedUnit * 2.1, -speedUnit * 3, word[0], true);
+            }
+            else if(wideLetters.includes(word[0])) {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoUnit, window.innerHeight / 2 + threeAndHalfUnit, speedUnit * 1.4, -speedUnit * 3, word[0], true);
+            }
+            else {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoUnit, window.innerHeight / 2 + threeAndHalfUnit, speedUnit * 1.7, -speedUnit * 3, word[0], true);
+            }
+            
+
+            letters[alpha.indexOf(word[1])] = new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 - twoAndHalfUnit, -speedUnit * 2.0, speedUnit * 2, word[1], true);
+
+            break;
+
+        //3 Letters
+        case 3:
+            //console.log(alpha.indexOf(word[2]));
+
+            //make letters move less horizontal if wider
+            if(word[0] === "m") {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoAndHalfUnit, window.innerHeight / 2 - oneAndHalfUnit, speedUnit * 1.0, speedUnit * 2, word[0], true);
+            }
+            else if(word[0] === "w") {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoAndHalfUnit, window.innerHeight / 2 - oneAndHalfUnit, speedUnit * 1.1, speedUnit * 2, word[0], true);
+            }
+            //skinny letters
+            else if(skinnyLetters.includes(word[0])) {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoAndHalfUnit, window.innerHeight / 2 - oneAndHalfUnit, speedUnit * 1.7, speedUnit * 2, word[0], true);
+            }
+            else {
+                letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - twoAndHalfUnit, window.innerHeight / 2 - oneAndHalfUnit, speedUnit * 1.5, speedUnit * 2, word[0], true);
+            }
+            
+            if(skinnyLetters.includes(word[1])) {
+                letters[alpha.indexOf(word[1])] = new Letter(window.innerWidth / 2 - oneAndHalfUnit, window.innerHeight / 2 + oneAndHalfUnit, speedUnit * 1.4, -speedUnit, word[1], true);
+            }
+            else {
+                letters[alpha.indexOf(word[1])] = new Letter(window.innerWidth / 2 - oneAndHalfUnit, window.innerHeight / 2 + oneAndHalfUnit, speedUnit * 1.2, -speedUnit, word[1], true);
+            }
+            
+
+            if(word[1] === word[2]) {
+                letters.push(new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 + threeAndHalfUnit, -speedUnit * 3, -speedUnit * 3, word[2], true));
+            }
+            else {
+                letters[alpha.indexOf(word[2])] = new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 + threeAndHalfUnit, -speedUnit * 3, -speedUnit * 3, word[2], true);
+            }
+
+            break;
+
+        case 4:
+            
+            
+    }
+}
+
+doWord("too");
 
 var draw = function() {
     background(200);
@@ -118,8 +188,11 @@ var draw = function() {
         if(doMovement || letters[i].active) {
             letters[i].draw();
         }
+        if(doMovement && letters[i].active && abs(letters[i].y - window.innerHeight / 2 - (letterSize / 2)) > 0.2) {
+            letters[i].move();
+        }
 
-        if(doMovement) {
+        if(doMovement && !letters[i].active) {
             letters[i].move();
         }
         
