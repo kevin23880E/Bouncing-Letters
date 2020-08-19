@@ -26,7 +26,7 @@ var threeAndHalfUnit = Math.floor(letterSize * 3.5);
 var doMovement = true;
 
 
-
+//TIMER FUNCTION
 function timer() {
     if(millis() > startTime + deltaT) {
         doMovement = false;
