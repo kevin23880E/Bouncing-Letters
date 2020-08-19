@@ -11,7 +11,8 @@ var debug = 0;
 
 var letters = [];
 
-var alpha = "abcdefghijklmnopqrstuvwxyzI'"
+var alpha = "abcdefghijklmnopqrstuvwxyzI'";
+
 
 var letterSize = 50;
 
@@ -47,6 +48,7 @@ function timer() {
     }
 }
 
+var idx = 0;
 
 function mousePressed() {
     for(var i = 0; i < buttons.length; i++) {
@@ -112,9 +114,9 @@ Letter.prototype.move = function() {
 
 
 //Create Letters
-for(var i = 0; i < 28; i++) {
-    var randx = Math.random() * window.innerWidth * 0.9 + 20;
-    var randy = Math.random() * window.innerHeight * 0.9 + 50;
+for(var i = 0; i < alpha.length; i++) {
+    var randx = Math.random() * window.innerWidth * 0.8 + 20;
+    var randy = Math.random() * window.innerHeight * 0.8 + 60;
     var randvx = Math.random() + 0.2;
     var randvy = Math.random() + 0.2;
 
@@ -454,16 +456,15 @@ function doWord(word) {
 
 var currentWordIdx = 0;
 
-function nextWord(list) {
-    doWord(list[currentWordIdx]);
+function nextWord() {
+    doWord(wordsA[currentWordIdx]);
     currentWordIdx++;
 }
 
 buttons.push(new Button(200, 200, 100, "B"));
 
-draw = function() {
-    
-    nextWord(wordsA);
+doWord("hello");
+function draw() {
 
     if(debug) {
         line(0, window.innerHeight / 2, window.innerWidth, window.innerHeight / 2);
@@ -487,6 +488,7 @@ draw = function() {
             
         }
         timer();
+
     }
     else {
         background(150);
