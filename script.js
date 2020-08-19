@@ -28,9 +28,11 @@ var doMovement = true;
 
 var speedUnit = 0.15;
 
-var skinnyLetters = "ijtlr";
+var skinnyLetters = "ijtlrf";
 var wideLetters = "wm";
 
+var halfWidth = window.innerWidth / 2;
+var halfHeigh = window.innerHeight / 2;
 
 //TIMER FUNCTION
 function timer() {
@@ -193,7 +195,7 @@ function doWord(word) {
             else {
 
                 if(wideLetters.includes(word[0])) {
-                    letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - threeUnit, window.innerHeight / 2 - twoAndHalfUnit, speedUnit * 1.5, speedUnit * 2.5, word[0], true);
+                    letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - threeUnit, window.innerHeight / 2 - twoAndHalfUnit, speedUnit * 1.4, speedUnit * 2.5, word[0], true);
                 }
                 else {
                     letters[alpha.indexOf(word[0])] = new Letter(window.innerWidth / 2 - threeUnit, window.innerHeight / 2 - twoAndHalfUnit, speedUnit * 1.7, speedUnit * 2.5, word[0], true);
@@ -241,11 +243,82 @@ function doWord(word) {
             
 
             break;
+        
+        //5 Letters
+        case 5:
+
+            if(word[2] === word[1] || word[2] === word[0]) {
+
+            }
+            else {
+                if(wideLetters.includes(word[2])) {
+                    if(wideLetters.includes(word[3])) {
+
+                    }
+                    else {
+
+                    }
+                }
+                else if(skinnyLetters.includes(word[2]) {
+                    if(skinnyLetters.includes(word[3])) {
+
+                    }
+                    else {
+
+                    }
+                }
+                else {
+                    if(wideLetters.includes(word[3])) {
+
+                    }
+                    else if(skinnyLetters.includes(word[3])) {
+
+                    }
+                    else {
+                        
+                    }
+                }
+
+            }
+
+            if(word[3] === word[2] || word[3] === word[1] || word[3] === word[0]) {
+                if(wideLetters.includes(word[3])) {
+                    letters.push(new Letter(window.innerWidth / 2 - oneUnit, window.innerHeight / 2 + twoAndHalfUnit, speedUnit * 2.7, -speedUnit * 2.5, word[3], true));
+                }
+                else if(skinnyLetters.includes(word[3])) {
+                    letters.push(new Letter(window.innerWidth / 2 - oneUnit, window.innerHeight / 2 + twoAndHalfUnit, speedUnit * 3.7, -speedUnit * 2.5, word[3], true));
+                }
+                else {
+                    letters.push(new Letter(window.innerWidth / 2 - oneUnit, window.innerHeight / 2 + twoAndHalfUnit, speedUnit * 3.2, -speedUnit * 2.5, word[3], true));
+                }
+            }
+            else {
+                if(wideLetters.includes(word[3])) {
+                    letters[alpha.indexOf(word[3])] = new Letter(window.innerWidth / 2 - oneUnit, window.innerHeight / 2 + twoAndHalfUnit, speedUnit * 2.7, -speedUnit * 2.5, word[3], true);
+                }
+                else if(skinnyLetters.includes(word[3])) {
+                    letters[alpha.indexOf(word[3])] = new Letter(window.innerWidth / 2 - oneUnit, window.innerHeight / 2 + twoAndHalfUnit, speedUnit * 3.7, -speedUnit * 2.5, word[3], true);
+                }
+                else {
+                    letters[alpha.indexOf(word[3])] = new Letter(window.innerWidth / 2 - oneUnit, window.innerHeight / 2 + twoAndHalfUnit, speedUnit * 3.2, -speedUnit * 2.5, word[3], true);
+                }
+            }
             
+
+            //last letter
+            if(word[4] === word[3] || word[4] === word[2] || word[4] === word[1] || word[4] === word[0]) {
+                letters.push(new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 + twoAndHalfUnit, -speedUnit * 1.5, -speedUnit * 2.5, word[4], true));
+            }
+            else {
+                letters[alpha.indexOf(word[4])] = new Letter(window.innerWidth / 2 + threeAndHalfUnit, window.innerHeight / 2 + twoAndHalfUnit, -speedUnit * 1.5, -speedUnit * 2.5, word[4], true);
+            }
+
+
+            break
     }
 }
 
-doWord("said");
+doWord("askmd");
 
 var draw = function() {
     background(200);
